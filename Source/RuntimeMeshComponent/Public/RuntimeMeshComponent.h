@@ -812,13 +812,10 @@ private:
 	virtual bool WantsNegXTriMesh() override { return false; }
 	//~ End Interface_CollisionDataProvider Interface
 
-#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION < 21
 	UBodySetup* CreateNewBodySetup();
-	void FinishPhysicsAsyncCook(UBodySetup* FinishedBodySetup);
+	void FinishPhysicsAsyncCook(bool bSuccess, UBodySetup* FinishedBodySetup);
 
 	void UpdateCollision(bool bForceCookNow);
-#endif
-
 
 
 	friend class URuntimeMesh;

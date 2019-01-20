@@ -239,7 +239,6 @@ void URuntimeMeshComponent::PostLoad()
 }
 
 
-#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION < 21
 
 bool URuntimeMeshComponent::GetPhysicsTriMeshData(struct FTriMeshCollisionData* CollisionData, bool InUseAllTriData)
 {
@@ -270,13 +269,13 @@ UBodySetup* URuntimeMeshComponent::CreateNewBodySetup()
 	return NewBodySetup;
 }
 
-void URuntimeMeshComponent::FinishPhysicsAsyncCook(UBodySetup* FinishedBodySetup)
+void URuntimeMeshComponent::FinishPhysicsAsyncCook(bool bSuccess, UBodySetup* FinishedBodySetup)
 {
 	//SCOPE_CYCLE_COUNTER(STAT_RuntimeMesh_AsyncCollisionFinish);
 	check(IsInGameThread());
 
 	int32 FoundIdx;
-	if (AsyncBodySetupQueue.Find(FinishedBodySetup, FoundIdx))
+	if (bSuccess && AsyncBodySetupQueue.Find(FinishedBodySetup, FoundIdx))
 	{
 		// The new body was found in the array meaning it's newer so use it
 		BodySetup = FinishedBodySetup;
@@ -334,4 +333,3 @@ void URuntimeMeshComponent::UpdateCollision(bool bForceCookNow)
 	}
 }
 
-#endif
